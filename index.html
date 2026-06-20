@@ -66,7 +66,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             user-select: none;
             opacity: 0;
             transform: translateY(-15px);
@@ -89,8 +89,79 @@
             font-weight: 500;
         }
 
+        /* --- PANTALLA SELECCIÓN DE COMICS (HUB) --- */
+        #comic-hub {
+            display: none;
+            width: 100%;
+            max-width: 900px;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hub-title {
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .hub-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .hub-card {
+            position: relative;
+            width: 160px;
+            aspect-ratio: 1 / 1.428;
+            background-size: cover;
+            background-position: center;
+            border: 1px solid rgba(73, 182, 255, 0.3);
+            border-radius: 6px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .hub-card:not(.unclickable-card):hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: #49b6ff;
+            box-shadow: 0 0 15px rgba(73, 182, 255, 0.4);
+        }
+
+        .unclickable-card {
+            cursor: default;
+        }
+
+        .hub-card-overlay {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9) 80%);
+            padding: 30px 10px 10px 10px;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .hub-card-title {
+            font-size: 0.75rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #fff;
+        }
+
         /* --- MARCO DE LA VN --- */
         .vn-frame {
+            display: none;
             position: relative;
             width: 100%;
             max-width: 440px;
@@ -98,13 +169,12 @@
             border: 1px solid rgba(73, 182, 255, 0.15);
             box-shadow: 0 10px 40px rgba(0,0,0,0.9);
             padding: 10px;
-            display: flex;
             justify-content: center;
             align-items: center;
             margin-bottom: 10px;
             opacity: 0;
             transform: scale(0.99);
-            transition: all 1s ease 0.2s;
+            transition: all 0.5s ease;
         }
 
         /* --- SOLAPAS SUPERIORES COMPACTAS --- */
@@ -140,6 +210,7 @@
             box-shadow: inset 0 2px 0 #49b6ff;
         }
 
+        /* Oculta por defecto la pestaña de Luz dentro de la lectura */
         #btn-tab-luz {
             display: none;
             border-color: rgba(255, 73, 73, 0.3);
@@ -148,16 +219,19 @@
 
         #btn-tab-luz.unlocked {
             display: inline-block;
-            animation: tabGlitchUnlock 0.6s ease-out;
         }
 
-        .identity-tab:hover {
+        .back-hub-tab {
+            border-color: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.4);
+            margin-left: auto;
+        }
+        .back-hub-tab:hover {
+            border-color: #49b6ff;
             color: #fff;
-            border-color: rgba(73, 182, 255, 0.5);
         }
 
         body.system-ready .memun-header,
-        body.system-ready .vn-frame,
         body.system-ready .nav-instructions {
             opacity: 1;
             transform: none;
@@ -279,7 +353,7 @@
         @keyframes hintPulseGlitch {
             0%, 85%, 100% { border-color: transparent; background-color: transparent; box-shadow: none; }
             88% { border-color: rgba(73, 182, 255, 0.4); box-shadow: -1px 0 rgba(255,73,73,0.3), 1px 0 rgba(73, 182, 255, 0.3); }
-            90% { border-color: rgba(73, 182, 255, 0.6); box-shadow: 1px -1px rgba(255,73,73,0.5), -1px 1px rgba(73, 182, 255, 0.5); }
+            90% { border-color: rgba(73, 182, 255, 0.6); box-shadow: -1px 1px rgba(255,73,73,0.5), -1px 1px rgba(73, 182, 255, 0.5); }
         }
 
         /* Coordenadas de los Hotspots */
@@ -321,7 +395,7 @@
             100% { opacity: 0; }
         }
 
-        /* --- POP-UP MODAL MODIFICADO (SOLUCIÓN image_85c86e.png) --- */
+        /* --- POP-UP MODAL --- */
         .modal {
             display: none;
             position: fixed;
@@ -336,8 +410,8 @@
         .modal.active { display: flex; }
 
         .modal-envelope {
-            background-color: #fcecd2; /* Color crema de fondo */
-            border: 2px solid #000000; /* Borde exterior negro */
+            background-color: #fcecd2; 
+            border: 2px solid #000000; 
             box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.4);
             width: 100%;
             max-width: 400px;
@@ -361,15 +435,14 @@
             flex-direction: column;
         }
 
-        /* Ajuste específico para que las bandas laterales sean negras o transparentes */
         .modal-img {
             width: 100%;
             max-height: 220px;
             border-radius: 0;
             margin-bottom: 18px;
             object-fit: contain;
-            background-color: #000000; /* Cambiado a negro absoluto para ocultar el fondo blanco de los lados */
-            border-bottom: 2px solid #000000; /* Línea divisoria nítida con el texto */
+            background-color: #000000; 
+            border-bottom: 2px solid #000000; 
         }
 
         .modal-text {
@@ -410,10 +483,10 @@
             font-size: 24px;
             font-weight: bold;
             cursor: pointer;
-            color: #ffffff; /* Blanco para que contraste con el fondo negro superior de la imagen */
+            color: #ffffff; 
             z-index: 10;
             user-select: none;
-            text-shadow: 0 0 4px #000; /* Sombra sutil por si la imagen tiene zonas claras en esa esquina */
+            text-shadow: 0 0 4px #000; 
         }
         .close-btn:hover {
             color: #ff4949;
@@ -487,48 +560,68 @@
         .restart-btn:hover { background-color: rgba(73, 182, 255, 0.05); border-color: #49b6ff; }
 
         .nav-instructions {
+            opacity: 0;
             font-size: 0.55rem;
             color: rgba(255,255,255,0.2);
             text-align: center;
             letter-spacing: 1px;
             text-transform: uppercase;
             margin-top: 15px;
+            transition: opacity 0.5s ease;
         }
 
         @keyframes breathe { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.6; } }
-        
-        @keyframes tabGlitchUnlock {
-            0% { border-color: #ff4949; color: #ff4949; transform: translateY(-3px); opacity: 0; }
-            30% { transform: translateY(2px); opacity: 0.5; }
-            60% { transform: translateY(-1px); border-color: #49b6ff; opacity: 0.8; }
-            100% { transform: translateY(0); opacity: 1; }
-        }
     </style>
 </head>
 <body>
 
-    <!-- CAPA INICIAL -->
     <div id="cover-screen" onclick="unlockSystem()">
         <img class="corporate-logo-img" src="https://i.imgur.com/N7woDah.png" alt="MEMUN Logo">
         <div class="cover-hint">Haz clic para inicializar terminal_</div>
     </div>
 
-    <!-- TERMINAL HEADER -->
     <header class="memun-header">
         <img class="text-logo-img" src="https://i.imgur.com/AJqadud.png" alt="MEMUN">
         <div class="memun-slogan">Memun / editor de memorias</div>
     </header>
 
-    <!-- ÁREA CENTRAL DE LA NOVELA VISUAL -->
-    <main class="vn-frame">
+    <section id="comic-hub">
+        <h2 class="hub-title">Sincronización de Base de Datos - Selecciona un Archivo Nemónico</h2>
+        <div class="hub-grid">
+            <div class="hub-card" style="background-image: url('https://i.imgur.com/tbEc5uM.jpeg');" onclick="enterComic('main')">
+                <div class="hub-card-overlay">
+                    <div class="hub-card-title">Alice</div>
+                </div>
+            </div>
+            
+            <div id="card-luz" class="hub-card" style="background-image: url('https://i.imgur.com/yaTO4vp.jpeg');" onclick="enterComic('sub')">
+                <div class="hub-card-overlay">
+                    <div class="hub-card-title">Luz</div>
+                </div>
+            </div>
+
+            <div class="hub-card unclickable-card" style="background-image: url('https://i.imgur.com/xfJhuwW.jpeg');">
+                <div class="hub-card-overlay">
+                    <div class="hub-card-title">Gael</div>
+                </div>
+            </div>
+
+            <div class="hub-card unclickable-card" style="background-image: url('https://i.imgur.com/sfsqPZH.jpeg');">
+                <div class="hub-card-overlay">
+                    <div class="hub-card-title">Mateo</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="vn-frame" id="vn-visor">
         
-        <!-- PESTAÑAS SUPERIORES COMPACTAS -->
         <div class="identity-tabs-header">
             <button id="btn-tab-alice" class="identity-tab active" onclick="switchCluster('main')">Alice</button>
             <button id="btn-tab-luz" class="identity-tab" onclick="switchCluster('sub')">Luz</button>
+            <button class="identity-tab back-hub-tab" onclick="returnToHub()">← Menú</button>
         </div>
 
-        <!-- ZONAS DE TOQUE E INDICADORES -->
         <div class="nav-zone nav-left" onclick="changePage(-1)">
             <span id="arrow-l" class="nav-arrow" style="--dir: -8px;">&#9664;</span>
         </div>
@@ -538,13 +631,9 @@
 
         <div class="book-container">
 
-            <!-- CLUSTER CÓMIC 1: NOVELA GRÁFICA PRINCIPAL (ALICE) -->
             <div id="main-comic-cluster" class="comic-cluster active">
-                <!-- PAGINA 1 -->
                 <div class="page">
-                    <div class="page-front" style="background-image: url('https://i.imgur.com/tbEc5uM.jpeg');">
-                        
-                    </div>
+                    <div class="page-front" style="background-image: url('https://i.imgur.com/tbEc5uM.jpeg');"></div>
                     <div class="page-back"></div>
                 </div>
                 <div class="page">
@@ -558,16 +647,15 @@
                     <div class="page-back"></div>
                 </div>
 
-                <!-- PAGINA 2 -->
                 <div class="page">
                     <div class="page-front" style="background-image: url('https://i.imgur.com/6oKaSbZ.jpeg');">
                         <div id="hotspot-p2" class="interactive-hotspot" 
-                             data-text="Con cada persona que MEMUN borraba, también desaparecían los lazos que la unían al mundo. Padres olvidaban a sus hijos y familias enteras eran reescritas. Miles de niños quedaron solos, sin registros, sin hogar y sin nadie que recordara que alguna vez habían sido amados. Muchos terminaron viviendo en las calles, sobreviviendo entre ruinas y recuerdos fragmentados. Eran las víctimas más silenciosas de MEMUN: niños que habían perdido a sus familias sin que nadie hubiera muerto." 
+                             data-text="Con cada persona que MEMUN borraba, también desaparecían los lazos que la unían al mundo. Padres olvidaban a sus hijos y familias enteras eran reescritas. Miles de niños quedaron solos, sin registros, sin hogar y sin nadie que recordara que alguna vez habían sido amados. Muchos terminaron viviendo en las calles, sobreviviendo entre ruinas and recuerdos fragmentados. Eran las víctimas más silenciosas de MEMUN: niños que habían perdido a sus familias sin que nadie hubiera muerto." 
                              data-img="https://i.imgur.com/18bRNAv.png" 
                              onclick="openHotspot(this)">
                         </div>
                          <div id="hotspot-p9" class="interactive-hotspot" 
-                             data-text="Marta es uno de los pilares de la resistencia oculta contra el control absoluto de MEMUN. Mientras la corporación utiliza discursos manipuladores para obligar a las comunidades a olvidar su pasado, Marta se dedica activamente a rastrear las anomalías y mentiras del sistema. Con su teléfono celular como herramienta de investigación y comunicación clandestina, se encarga de alertar a otros sobrevivientes sobre los datos borrados y la manipulación de la historia, convirtiéndose en una pieza clave para desmantelar la verdad colectiva que la empresa tecnológica intenta imponer." 
+                             data-text="Marta es uno de los pilares de la resistencia oculta contra el control absoluto de MEMUN. Mientras la corporación utiliza discursos manipuladores para obligar a las comunidades a olvidar su pasado, Marta se dedica activamente a rastrear las anomalías y mentiras del sistema. Con su teléfono celular como herramienta de investigación y comunicación clandestina, se encarga de alertar a otros sobrevivientes sobre los datos borrados y la manipulation de la historia, convirtiéndose en una pieza clave para desmantelar la verdad colectiva que la empresa tecnológica intenta imponer." 
                              data-img="https://i.imgur.com/xsVnNFY.png" 
                              onclick="openHotspot(this)">
                         </div>
@@ -575,7 +663,6 @@
                     <div class="page-back"></div>
                 </div>
 
-                <!-- PAGINA 3 -->
                 <div class="page">
                     <div class="page-front" style="background-image: url('https://i.imgur.com/XI2jwWL.png');">
                         <div id="hotspot-p3" class="interactive-hotspot" 
@@ -587,7 +674,6 @@
                     <div class="page-back"></div>
                 </div>
                 
-                <!-- PAGINA 4 (CONEXIÓN INTERPERSONAL CON REDIRECCIÓN) -->
                 <div class="page">
                     <div class="page-front" style="background-image: url('https://i.imgur.com/CYjEKWu.jpeg');">
                         <div id="hotspot-p4" class="interactive-hotspot" 
@@ -598,7 +684,6 @@
                     <div class="page-back"></div>
                 </div>
 
-                <!-- PAGINA 5 -->
                 <div class="page">
                     <div class="page-front" style="background-image: url('https://i.imgur.com/e3pOSvq.jpeg');">
                         <div id="hotspot-p5" class="interactive-hotspot" 
@@ -611,16 +696,19 @@
                     <div class="page-back"></div>
                 </div>
 
-                <!-- PAGINA 6 (CIERRE AUTOMÁTICO) -->
                 <div class="page">
                     <div class="page-front" style="background-image: url();"></div>
                     <div class="page-back"></div>
                 </div>
             </div>
 
-            <!-- CLUSTER CÓMIC 2: CONEXIÓN DE NOVELA GRÁFICA (LUZ) -->
             <div id="sub-comic-cluster" class="comic-cluster">
-                <!-- SUB-PAGINA 1 -->
+                <div class="sub-page page">
+                    <div class="page-front" style="background-image: url('https://i.imgur.com/yaTO4vp.jpeg');">
+            
+                    </div>
+                    <div class="page-back"></div>
+                </div>
                 <div class="sub-page page">
                     <div class="page-front" style="background-image: url('https://i.imgur.com/srLh77Y.jpeg');">
                         <div id="hotspot-sub-p1" class="interactive-hotspot" 
@@ -632,11 +720,10 @@
                     <div class="page-back"></div>
                 </div>
 
-                <!-- SUB-PAGINA 2 -->
                 <div class="sub-page page">
                     <div class="page-front" style="background-image: url('https://i.imgur.com/kKeZBZ7.jpeg');">
                         <div id="hotspot-sub-p2" class="interactive-hotspot" 
-                             data-text="La cronología marcada en los calendarios de 2041, 2042 y 2045 revela el avance del 'primer vacío', donde los días se convirtieron en años de ausencias tras el colapso global. La guerra destruyó las ciudades y fracturó la historia humana. El trauma dejó cicatrices tan profundas que la población, desesperada por escapar del horror, aceptó el sistema de la corporación MEMUN, entregando el control de su propia memoria."
+                             data-text="La cronología marcada en los calendarios de 2041, 2042 y 2045 revela el avance del 'primer vacío', donde los days se convirtieron en años de ausencias tras el colapso global. La guerra destruyó las ciudades y fracturó la historia humana. El trauma dejó cicatrices tan profundas que la población, desesperada por escapar del horror, aceptó el sistema de la corporación MEMUN, entregando el control de su propia memoria."
                              data-img="https://i.imgur.com/7hrePwH.png"
                              onclick="openHotspot(this)">
                         </div>
@@ -648,14 +735,12 @@
         </div>
     </main>
 
-    <footer class="nav-instructions">
+    <footer class="nav-instructions" id="footer-instructions">
         <p>PULSA EN LOS LATERALES IZQUIERDA/DERECHA PARA VOLVER O AVANZAR</p>
     </footer>
 
-    <!-- INTERFAZ DE EFECTO UNLOCK GLITCH -->
     <div id="unlock-matrix-effect">SINCRONIZANDO CONEXIÓN ENTRE PERSONAJES...</div>
 
-    <!-- EXPERIENCIA FINAL -->
     <div id="final-screen">
         <img class="final-screen-logo" src="https://i.imgur.com/AJqadud.png" alt="MEMUN">
         <p class="final-quote">
@@ -666,7 +751,6 @@
         <button class="restart-btn" onclick="restartInvestigation()">Reiniciar investigación</button>
     </div>
 
-    <!-- MODAL CORREGIDO -->
     <div id="infoModal" class="modal" onclick="closeModal()">
         <div class="modal-envelope" onclick="event.stopPropagation()">
             <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -682,7 +766,7 @@
         let currentCluster = "main";
         let mainPageIndex = 0;
         let subPageIndex = 0;
-        let isLuzUnlocked = false;
+        let isLuzTabUnlocked = false; // Controla la visibilidad de la pestaña de arriba en el visor
         
         let mainPages = Array.from(document.querySelectorAll('#main-comic-cluster .page'));
         let subPages = Array.from(document.querySelectorAll('#sub-comic-cluster .sub-page'));
@@ -700,7 +784,6 @@
             initAudio();
             if (!audioCtx) return;
             let now = audioCtx.currentTime;
-            
             let oscLow = audioCtx.createOscillator();
             let gainLow = audioCtx.createGain();
             oscLow.type = 'triangle';
@@ -710,19 +793,7 @@
             gainLow.gain.linearRampToValueAtTime(0, now + 0.35);
             oscLow.connect(gainLow);
             gainLow.connect(audioCtx.destination);
-            
-            let oscHigh = audioCtx.createOscillator();
-            let gainHigh = audioCtx.createGain();
-            oscHigh.type = 'sine';
-            oscHigh.frequency.setValueAtTime(320, now);
-            oscHigh.frequency.linearRampToValueAtTime(150, now + 0.2);
-            gainHigh.gain.setValueAtTime(0.04, now);
-            gainHigh.gain.linearRampToValueAtTime(0, now + 0.2);
-            oscHigh.connect(gainHigh);
-            gainHigh.connect(audioCtx.destination);
-            
             oscLow.start(now); oscLow.stop(now + 0.35);
-            oscHigh.start(now); oscHigh.stop(now + 0.2);
         }
 
         function playClickSound() {
@@ -731,43 +802,14 @@
             let now = audioCtx.currentTime;
             let osc = audioCtx.createOscillator();
             let gain = audioCtx.createGain();
-            
             osc.type = 'sine';
-            osc.frequency.setValueAtTime(650, now);
-            osc.frequency.exponentialRampToValueAtTime(120, now + 0.08);
-            gain.gain.setValueAtTime(0.18, now);
+            osc.frequency.setValueAtTime(550, now);
+            osc.frequency.exponentialRampToValueAtTime(100, now + 0.08);
+            gain.gain.setValueAtTime(0.15, now);
             gain.gain.linearRampToValueAtTime(0, now + 0.08);
-            
             osc.connect(gain);
             gain.connect(audioCtx.destination);
             osc.start(now); osc.stop(now + 0.08);
-        }
-
-        window.addEventListener('load', () => {
-            updatePageLayers();
-            resetInactivityTimer();
-            ['mousemove', 'mousedown', 'touchstart', 'keydown'].forEach(evt => {
-                document.addEventListener(evt, resetInactivityTimer);
-            });
-        });
-
-        function resetInactivityTimer() {
-            hideArrows();
-            clearTimeout(inactivityTimer);
-            inactivityTimer = setTimeout(showArrows, 5000);
-        }
-
-        function showArrows() {
-            let index = (currentCluster === "main") ? mainPageIndex : subPageIndex;
-            let list = (currentCluster === "main") ? mainPages : subPages;
-            
-            if (index > 0) document.getElementById('arrow-l').classList.add('show');
-            if (index < list.length - 1) document.getElementById('arrow-r').classList.add('show');
-        }
-
-        function hideArrows() {
-            document.getElementById('arrow-l').classList.remove('show');
-            document.getElementById('arrow-r').classList.remove('show');
         }
 
         function unlockSystem() {
@@ -777,7 +819,51 @@
             setTimeout(() => {
                 cover.style.visibility = 'hidden';
                 document.body.classList.add('system-ready');
+                showComicHub();
             }, 1200);
+        }
+
+        function showComicHub() {
+            const hub = document.getElementById('comic-hub');
+            hub.style.display = 'flex';
+            setTimeout(() => {
+                hub.style.opacity = '1';
+                hub.style.transform = 'none';
+            }, 50);
+        }
+
+        function enterComic(cluster) {
+            playClickSound();
+            document.getElementById('comic-hub').style.display = 'none';
+            
+            const visor = document.getElementById('vn-visor');
+            visor.style.display = 'flex';
+            document.getElementById('footer-instructions').style.opacity = '1';
+            
+            setTimeout(() => {
+                visor.style.opacity = '1';
+                visor.style.transform = 'none';
+            }, 50);
+
+            // Al entrar directamente desde el menú principal por "Luz", forzamos que su pestaña superior se active
+            if (cluster === 'sub') {
+                isLuzTabUnlocked = true;
+                document.getElementById('btn-tab-luz').classList.add('unlocked');
+            } else {
+                // Al entrar por "Alice", verificamos si ya se desbloqueó previamente antes de esconderla
+                if (!isLuzTabUnlocked) {
+                    document.getElementById('btn-tab-luz').classList.remove('unlocked');
+                }
+            }
+
+            switchCluster(cluster);
+        }
+
+        function returnToHub() {
+            playClickSound();
+            document.getElementById('vn-visor').style.display = 'none';
+            document.getElementById('footer-instructions').style.opacity = '0';
+            showComicHub();
         }
 
         function changePage(direction) {
@@ -837,9 +923,6 @@
         }
 
         function switchCluster(target) {
-            if (target === "sub" && !isLuzUnlocked) return; 
-            
-            playClickSound();
             currentCluster = target;
             
             document.querySelectorAll('.identity-tab').forEach(btn => btn.classList.remove('active'));
@@ -847,10 +930,14 @@
                 document.getElementById('btn-tab-alice').classList.add('active');
                 document.getElementById('sub-comic-cluster').classList.remove('active');
                 document.getElementById('main-comic-cluster').classList.add('active');
+                mainPageIndex = 0;
+                mainPages.forEach(p => p.classList.remove('flipped'));
             } else {
                 document.getElementById('btn-tab-luz').classList.add('active');
                 document.getElementById('main-comic-cluster').classList.remove('active');
                 document.getElementById('sub-comic-cluster').classList.add('active');
+                subPageIndex = 0;
+                subPages.forEach(p => p.classList.remove('flipped'));
             }
             updatePageLayers();
             resetInactivityTimer();
@@ -868,16 +955,14 @@
                 matrix.classList.add('run-animation');
                 
                 setTimeout(() => {
-                    isLuzUnlocked = true;
+                    isLuzTabUnlocked = true; // Activa el desbloqueo de la pestaña superior
+                    
                     const luzTab = document.getElementById('btn-tab-luz');
-                    luzTab.classList.add('unlocked');
-                    
-                    subPageIndex = 0;
-                    subPages.forEach(p => p.classList.remove('flipped'));
-                    
+                    luzTab.classList.add('unlocked'); // Enciende la aba de arriba
+
                     switchCluster('sub');
                     matrix.classList.remove('run-animation');
-                }, 600);
+                }, 1500);
                 return;
             }
 
@@ -913,17 +998,42 @@
             playClickSound();
             document.getElementById('final-screen').classList.remove('active');
             
-            isLuzUnlocked = false;
-            const luzTab = document.getElementById('btn-tab-luz');
-            luzTab.classList.remove('unlocked');
+            isLuzTabUnlocked = false; 
+            document.getElementById('btn-tab-luz').classList.remove('unlocked'); // Apaga la aba al resetear
             
             mainPageIndex = 0;
             subPageIndex = 0;
-            
             mainPages.forEach(p => p.classList.remove('flipped'));
             subPages.forEach(p => p.classList.remove('flipped'));
+            returnToHub();
+        }
+
+        window.addEventListener('load', () => {
+            updatePageLayers();
+            resetInactivityTimer();
+            ['mousemove', 'mousedown', 'touchstart', 'keydown'].forEach(evt => {
+                document.addEventListener(evt, resetInactivityTimer);
+            });
+        });
+
+        function resetInactivityTimer() {
+            hideArrows();
+            clearTimeout(inactivityTimer);
+            inactivityTimer = setTimeout(showArrows, 5000);
+        }
+
+        function showArrows() {
+            if(document.getElementById('vn-visor').style.display === 'none') return;
+            let index = (currentCluster === "main") ? mainPageIndex : subPageIndex;
+            let list = (currentCluster === "main") ? mainPages : subPages;
             
-            switchCluster('main');
+            if (index > 0) document.getElementById('arrow-l').classList.add('show');
+            if (index < list.length - 1) document.getElementById('arrow-r').classList.add('show');
+        }
+
+        function hideArrows() {
+            document.getElementById('arrow-l').classList.remove('show');
+            document.getElementById('arrow-r').classList.remove('show');
         }
     </script>
 </body>
