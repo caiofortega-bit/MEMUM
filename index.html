@@ -21,7 +21,7 @@
             min-height: 100vh;
             overflow: hidden;
             color: #fff;
-            padding: 10px;
+            padding: 15px;
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -40,21 +40,20 @@
             cursor: pointer;
         }
 
-        .minimal-m {
-            font-size: 5rem;
-            font-weight: 200;
-            color: #fff;
-            letter-spacing: -2px;
-            transition: transform 0.5s ease, text-shadow 0.5s ease;
+        .corporate-logo-img {
+            width: 120px;
+            height: auto;
+            object-fit: contain;
+            transition: transform 0.5s ease, filter 0.5s ease;
         }
 
-        #cover-screen:hover .minimal-m {
+        #cover-screen:hover .corporate-logo-img {
             transform: scale(1.05);
-            text-shadow: 0 0 15px rgba(73, 182, 255, 0.6);
+            filter: drop-shadow(0 0 10px rgba(73, 182, 255, 0.6));
         }
 
         .cover-hint {
-            margin-top: 20px;
+            margin-top: 25px;
             font-size: 0.65rem;
             letter-spacing: 3px;
             text-transform: uppercase;
@@ -62,50 +61,39 @@
             animation: breathe 3s infinite ease-in-out;
         }
 
-        /* --- ENCABEZADO --- */
+        /* --- ENCABEZADO CON LOGO GRÁFICO --- */
         .memun-header {
-            text-align: center;
-            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
             user-select: none;
             opacity: 0;
             transform: translateY(-15px);
             transition: all 1s ease;
         }
 
-        .memun-logo {
-            font-size: 2.2rem;
-            font-weight: 800;
-            letter-spacing: 10px;
-            color: #fff;
-            position: relative;
-            display: inline-block;
-            line-height: 1;
+        .text-logo-img {
+            height: 45px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 0 4px rgba(73, 182, 255, 0.2));
         }
-
-        .memun-logo::before, .memun-logo::after {
-            content: "MEMUN";
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: #050505;
-        }
-
-        .memun-logo::before { left: 2px; text-shadow: -1px 0 #49b6ff; clip: rect(44px, 450px, 56px, 0); animation: glitch-anim 5s infinite linear alternate-reverse; }
-        .memun-logo::after { left: -2px; text-shadow: -1px 0 #ff4949; clip: rect(85px, 450px, 140px, 0); animation: glitch-anim2 5s infinite linear alternate-reverse; }
 
         .memun-slogan {
-            margin-top: 8px;
-            font-size: 0.6rem;
+            margin-top: 10px;
+            font-size: 0.65rem;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             color: rgba(73, 182, 255, 0.7);
+            font-weight: 500;
         }
 
         /* --- MARCO DE LA VN --- */
         .vn-frame {
             position: relative;
             width: 100%;
-            max-width: 440px; /* Forzado a mantener una relación de aspecto consistente */
+            max-width: 440px;
             background-color: #090909;
             border: 1px solid rgba(73, 182, 255, 0.15);
             box-shadow: 0 10px 40px rgba(0,0,0,0.9);
@@ -119,6 +107,55 @@
             transition: all 1s ease 0.2s;
         }
 
+        /* --- SOLAPAS SUPERIORES COMPACTAS --- */
+        .identity-tabs-header {
+            position: absolute;
+            top: -26px;
+            left: 0;
+            display: flex;
+            gap: 4px;
+            z-index: 50;
+            pointer-events: auto;
+        }
+
+        .identity-tab {
+            background: #090909;
+            border: 1px solid rgba(73, 182, 255, 0.2);
+            border-bottom: none;
+            color: rgba(73, 182, 255, 0.5);
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 5px 14px;
+            border-radius: 4px 4px 0 0;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .identity-tab.active {
+            border-color: rgba(73, 182, 255, 0.5);
+            color: #fff;
+            background: #090909;
+            box-shadow: inset 0 2px 0 #49b6ff;
+        }
+
+        #btn-tab-luz {
+            display: none;
+            border-color: rgba(255, 73, 73, 0.3);
+            color: rgba(255, 73, 73, 0.6);
+        }
+
+        #btn-tab-luz.unlocked {
+            display: inline-block;
+            animation: tabGlitchUnlock 0.6s ease-out;
+        }
+
+        .identity-tab:hover {
+            color: #fff;
+            border-color: rgba(73, 182, 255, 0.5);
+        }
+
         body.system-ready .memun-header,
         body.system-ready .vn-frame,
         body.system-ready .nav-instructions {
@@ -126,15 +163,14 @@
             transform: none;
         }
 
-        /* --- CONTENEDOR DEL LIBRO RESPONSIVO --- */
+        /* --- CONTAINER DEL LIBRO --- */
         .book-container {
             position: relative;
             width: 100%;
-            aspect-ratio: 1 / 1.428; /* Relación fija de aspecto basada en 420x600 */
+            aspect-ratio: 1 / 1.428;
             perspective: 2000px;
         }
 
-        /* Bloques de cómics separados */
         .comic-cluster {
             position: absolute;
             width: 100%;
@@ -166,7 +202,7 @@
             width: 100%; height: 100%;
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
-            background-size: 100% 100%; /* Forzado para estirar y encajar perfectamente con los Hotspots */
+            background-size: 100% 100%;
             background-repeat: no-repeat;
             background-position: center;
             background-color: #090909; 
@@ -187,7 +223,7 @@
             pointer-events: none !important;
         }
 
-        /* ZONAS DE NAVEGACIÓN Y FLECHAS DE AYUDA */
+        /* ZONAS DE NAVEGACIÓN */
         .nav-zone {
             position: absolute;
             top: 0;
@@ -242,62 +278,21 @@
 
         @keyframes hintPulseGlitch {
             0%, 85%, 100% { border-color: transparent; background-color: transparent; box-shadow: none; }
-            88% { border-color: rgba(73, 182, 255, 0.4); box-shadow: -1px 0 rgba(255,73,73,0.3), 1px 0 rgba(73,182,255,0.3); }
-            90% { border-color: rgba(73, 182, 255, 0.6); box-shadow: 1px -1px rgba(255,73,73,0.5), -1px 1px rgba(73,182,255,0.5); }
+            88% { border-color: rgba(73, 182, 255, 0.4); box-shadow: -1px 0 rgba(255,73,73,0.3), 1px 0 rgba(73, 182, 255, 0.3); }
+            90% { border-color: rgba(73, 182, 255, 0.6); box-shadow: 1px -1px rgba(255,73,73,0.5), -1px 1px rgba(73, 182, 255, 0.5); }
         }
 
-        /* Coordenadas de los Hotspots precisas porcentualmente */
-        #hotspot-p1 { top: 10%; left: 20%; width: 40px; height: 40px; }
-        #hotspot-p2 { top: 23%; left: 28%; width: 40px; height: 40px; }
-        #hotspot-p3 { top: 85%; left: 20%; width: 40px; height: 40px; }
-        #hotspot-p4 { top: 65%; left: 15%; width: 40px; height: 40px; }
-        #hotspot-p5 { top: 85%; left: 60%; width: 40px; height: 40px; }
-        #hotspot-p9 { top: 38%; left: 40%; width: 40px; height: 40px; }
+        /* Coordenadas de los Hotspots */
+        .comic-cluster#main-comic-cluster #hotspot-p1 { top: 10%; left: 20%; width: 40px; height: 40px; }
+        .comic-cluster#main-comic-cluster #hotspot-p2 { top: 10%; left: 20%; width: 40px; height: 40px; }
+        .comic-cluster#main-comic-cluster #hotspot-p3 { top: 85%; left: 20%; width: 40px; height: 40px; }
+        .comic-cluster#main-comic-cluster #hotspot-p4 { top: 69%; left: 15%; width: 40px; height: 40px; }
+        .comic-cluster#main-comic-cluster #hotspot-p5 { top: 83%; left: 29%; width: 40px; height: 40px; }
+        .comic-cluster#main-comic-cluster #hotspot-p9 { top: 47%; left: 35%; width: 40px; height: 40px; }
         
         /* Hotspots del segundo cómic */
-        #hotspot-sub-p1 { top: 55%; left: 65%; width: 40px; height: 40px; }
-        #hotspot-sub-p2 { top: 85%; left: 30%; width: 40px; height: 40px; }
-
-        /* --- ENCABEZADO REFINADO DE SUB-TERMINAL --- */
-        .sub-comic-interface {
-            position: absolute;
-            top: -30px; left: 0;
-            width: 100%;
-            pointer-events: none;
-            z-index: 35;
-            display: none;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .comic-cluster#sub-comic-cluster.active .sub-comic-interface {
-            display: flex;
-        }
-
-        .sub-label-header {
-            font-size: 0.55rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            font-weight: 600;
-            color: rgba(73, 182, 255, 0.5);
-        }
-
-        /* Botón de Retorno Minimalista */
-        .return-system-btn {
-            font-size: 0.55rem;
-            color: #ff4949;
-            border: 1px solid rgba(255, 73, 73, 0.3);
-            background: transparent;
-            padding: 2px 6px;
-            cursor: pointer;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            pointer-events: auto;
-            transition: all 0.2s ease;
-        }
-        .return-system-btn:hover {
-            background-color: rgba(255, 73, 73, 0.1);
-            border-color: #ff4949;
-        }
+        .comic-cluster#sub-comic-cluster #hotspot-sub-p1 { top: 55%; left: 65%; width: 40px; height: 40px; }
+        .comic-cluster#sub-comic-cluster #hotspot-sub-p2 { top: 85%; left: 30%; width: 40px; height: 40px; }
 
         /* --- EFECTO DE DESBLOQUEO CRÍTICO --- */
         #unlock-matrix-effect {
@@ -326,103 +321,105 @@
             100% { opacity: 0; }
         }
 
-        /* --- POP-UP AJUSTADO PARA MÓVILES --- */
+        /* --- POP-UP MODAL MODIFICADO (SOLUCIÓN image_85c86e.png) --- */
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(3, 3, 3, 0.94);
+            background-color: rgba(3, 3, 3, 0.85);
             z-index: 6000;
             justify-content: center;
             align-items: center;
-            padding: 10px;
+            padding: 20px;
         }
 
         .modal.active { display: flex; }
 
         .modal-envelope {
-            background-color: #0d0d0d;
-            border: 1px solid rgba(73, 182, 255, 0.2);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+            background-color: #fcecd2; /* Color crema de fondo */
+            border: 2px solid #000000; /* Borde exterior negro */
+            box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.4);
             width: 100%;
             max-width: 400px;
-            max-height: 85vh; /* Evita que se salga de la pantalla en celulares */
-            padding: 5px;
+            max-height: 85vh;
+            padding: 0;
             overflow: hidden;
             position: relative;
-            transform: scaleY(0.01);
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: scale(0.9);
+            transition: transform 0.2s ease-out;
         }
 
-        .modal.active .modal-envelope { transform: scaleY(1); }
+        .modal.active .modal-envelope { transform: scale(1); }
 
         .modal-content {
-            background-color: #090909;
-            border: 1px solid rgba(73, 182, 255, 0.1);
-            padding: 20px 15px;
+            background-color: transparent;
+            padding: 22px 18px;
             width: 100%;
-            max-height: calc(85vh - 12px);
-            overflow-y: auto; /* Permite scroll interno si el texto es muy largo */
-            transform: translateY(110%);
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.25s;
+            max-height: calc(85vh - 4px);
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
         }
 
-        .modal.active .modal-content { transform: translateY(0); }
-
+        /* Ajuste específico para que las bandas laterales sean negras o transparentes */
         .modal-img {
             width: 100%;
-            max-height: 160px;
-            border-radius: 2px;
-            margin-bottom: 15px;
+            max-height: 220px;
+            border-radius: 0;
+            margin-bottom: 18px;
             object-fit: contain;
-            border: 1px solid rgba(73, 182, 255, 0.1);
+            background-color: #000000; /* Cambiado a negro absoluto para ocultar el fondo blanco de los lados */
+            border-bottom: 2px solid #000000; /* Línea divisoria nítida con el texto */
         }
 
         .modal-text {
-            font-size: 0.8rem; /* Más legible y compacto en celular */
-            line-height: 1.5;
-            color: #ccc;
-            letter-spacing: 0.4px;
+            font-family: 'Segoe UI', 'Ubuntu', 'Helvetica Neue', sans-serif;
+            font-size: 1.05rem; 
+            line-height: 1.4;
+            color: #000000; 
+            font-weight: 500;
+            letter-spacing: -0.2px;
             margin-bottom: 5px;
+            word-break: break-word;
         }
 
-        /* Botón dinámico de Leer Más */
         .modal-readmore-btn {
             display: none;
             align-self: flex-start;
-            margin-top: 10px;
-            background: transparent;
-            border: 1px solid rgba(73, 182, 255, 0.4);
-            color: #49b6ff;
-            padding: 6px 12px;
-            font-size: 0.7rem;
+            margin-top: 15px;
+            background: #000000;
+            border: 2px solid #000000;
+            color: #fcecd2;
+            padding: 6px 14px;
+            font-size: 0.75rem;
             text-transform: uppercase;
+            font-weight: bold;
             letter-spacing: 1px;
             cursor: pointer;
-            border-radius: 2px;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: background-color 0.2s ease;
         }
         .modal-readmore-btn:hover {
-            background-color: rgba(73, 182, 255, 0.05);
-            border-color: #49b6ff;
+            background-color: #333333;
+            border-color: #333333;
         }
 
         .close-btn {
             position: absolute;
-            top: 10px; right: 15px;
-            font-size: 22px;
+            top: 5px; right: 10px;
+            font-size: 24px;
+            font-weight: bold;
             cursor: pointer;
-            color: rgba(73, 182, 255, 0.5);
+            color: #ffffff; /* Blanco para que contraste con el fondo negro superior de la imagen */
             z-index: 10;
+            user-select: none;
+            text-shadow: 0 0 4px #000; /* Sombra sutil por si la imagen tiene zonas claras en esa esquina */
         }
         .close-btn:hover {
             color: #ff4949;
         }
 
-        /* --- SECUENCIA DE EXPERIENCIA FINAL --- */
+        /* --- PANTALLA DE EXPERIENCIA FINAL --- */
         #final-screen {
             position: fixed;
             top: 0; left: 0;
@@ -440,6 +437,13 @@
         }
 
         #final-screen.active { opacity: 1; visibility: visible; }
+
+        .final-screen-logo {
+            height: 60px;
+            width: auto;
+            object-fit: contain;
+            margin-bottom: 20px;
+        }
 
         .final-quote {
             max-width: 500px;
@@ -488,30 +492,43 @@
             text-align: center;
             letter-spacing: 1px;
             text-transform: uppercase;
+            margin-top: 15px;
         }
 
         @keyframes breathe { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.6; } }
-        @keyframes glitch-anim { 0% { clip: rect(31px, 9999px, 94px, 0); } 50% { clip: rect(118px, 9999px, 142px, 0); } 100% { clip: rect(130px, 9999px, 67px, 0); } }
-        @keyframes glitch-anim2 { 0% { clip: rect(76px, 9999px, 116px, 0); } 50% { clip: rect(15px, 9999px, 82px, 0); } 100% { clip: rect(29px, 9999px, 93px, 0); } }
+        
+        @keyframes tabGlitchUnlock {
+            0% { border-color: #ff4949; color: #ff4949; transform: translateY(-3px); opacity: 0; }
+            30% { transform: translateY(2px); opacity: 0.5; }
+            60% { transform: translateY(-1px); border-color: #49b6ff; opacity: 0.8; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
     </style>
 </head>
 <body>
 
     <!-- CAPA INICIAL -->
     <div id="cover-screen" onclick="unlockSystem()">
-        <div class="minimal-m">M</div>
+        <img class="corporate-logo-img" src="https://i.imgur.com/N7woDah.png" alt="MEMUN Logo">
         <div class="cover-hint">Haz clic para inicializar terminal_</div>
     </div>
 
     <!-- TERMINAL HEADER -->
     <header class="memun-header">
-        <div class="memun-logo">MEMUN</div>
-        <div class="memun-slogan">El futuro es Memun. Borrar. Proteger. Reescribir.</div>
+        <img class="text-logo-img" src="https://i.imgur.com/AJqadud.png" alt="MEMUN">
+        <div class="memun-slogan">Memun / editor de memorias</div>
     </header>
 
     <!-- ÁREA CENTRAL DE LA NOVELA VISUAL -->
     <main class="vn-frame">
-        <!-- ZONAS DE TOQUE E INDICADORES (SETAS) -->
+        
+        <!-- PESTAÑAS SUPERIORES COMPACTAS -->
+        <div class="identity-tabs-header">
+            <button id="btn-tab-alice" class="identity-tab active" onclick="switchCluster('main')">Alice</button>
+            <button id="btn-tab-luz" class="identity-tab" onclick="switchCluster('sub')">Luz</button>
+        </div>
+
+        <!-- ZONAS DE TOQUE E INDICADORES -->
         <div class="nav-zone nav-left" onclick="changePage(-1)">
             <span id="arrow-l" class="nav-arrow" style="--dir: -8px;">&#9664;</span>
         </div>
@@ -521,13 +538,11 @@
 
         <div class="book-container">
 
-            <!-- ==========================================
-                 CLUSTER CÓMIC 1: PRINCIPAL (ALICE)
-                 ========================================== -->
+            <!-- CLUSTER CÓMIC 1: NOVELA GRÁFICA PRINCIPAL (ALICE) -->
             <div id="main-comic-cluster" class="comic-cluster active">
                 <!-- PAGINA 1 -->
                 <div class="page">
-                    <div class="page-front" style="background-image: url('https://i.imgur.com/jvX7NPW.jpeg');">
+                    <div class="page-front" style="background-image: url('https://i.imgur.com/kEM6aA1.png');">
                         <div id="hotspot-p1" class="interactive-hotspot" 
                              data-text="Tras una guerra devastadora, surgió MEMUN, una corporación tecnológica que prometía eliminar el sufrimiento humano borrando los traumas del conflicto bajo el lema de que 'olvidar era sanar'. Sin embargo, su verdadero propósito era el control absoluto: la empresa trabajó el sistema para modificar identidades, reescribir la historia y borrar cualquier rastro de resistencia pasada, sumiendo a la población en una calma artificial. El plan comenzó a fallar cuando la red central sufrió glitches, provocando que fragmentos de recuerdos reales se filtraran en la mente de personas como Alice, Luz, Gael y Mateo, iniciando el despertar colectivo." 
                              data-img="https://i.imgur.com/SYP8gmH.png" 
@@ -539,7 +554,7 @@
 
                 <!-- PAGINA 2 -->
                 <div class="page">
-                    <div class="page-front" style="background-image: url('https://i.imgur.com/CKOk9Nw.jpeg');">
+                    <div class="page-front" style="background-image: url('https://i.imgur.com/2uTPN6V.jpeg');">
                         <div id="hotspot-p2" class="interactive-hotspot" 
                              data-text="Con cada persona que MEMUN borraba, también desaparecían los lazos que la unían al mundo. Padres olvidaban a sus hijos y familias enteras eran reescritas. Miles de niños quedaron solos, sin registros, sin hogar y sin nadie que recordara que alguna vez habían sido amados. Muchos terminaron viviendo en las calles, sobreviviendo entre ruinas y recuerdos fragmentados. Eran las víctimas más silenciosas de MEMUN: niños que habían perdido a sus familias sin que nadie hubiera muerto." 
                              data-img="https://i.imgur.com/kovfnY6.png" 
@@ -556,9 +571,9 @@
 
                 <!-- PAGINA 3 -->
                 <div class="page">
-                    <div class="page-front" style="background-image: url('https://i.imgur.com/A4KEard.jpeg');">
+                    <div class="page-front" style="background-image: url('https://i.imgur.com/eZ5TqtC.png');">
                         <div id="hotspot-p3" class="interactive-hotspot" 
-                             data-text="Las furgonetas de MEMUN aparecían sin aviso, generalmente durante la noche. No llevaban insignias oficiales, pero todos sabían lo que significaban. Cuando una persona era señalada para ser borrada, los agentes llegaban en silencio, la subían al vehículo y desaparecían. Días después, los registros cambiaban, las fotografías se ponían borrosas y los recuerdos se desvanecían. Era como si esa persona nunca hubiera existido." 
+                             data-text="Las furgonetas de MEMUN aparecían sin aviso, generalmente durante la noche. No llevaban insignias oficiales, pero todos sabían lo que significaban. Cuando una persona era señalada para ser borrada, los agentes llegaron en silencio, la subían al vehículo y desaparecían. Días después, los registros cambiaban, las fotografías se ponían borrosas y los recuerdos se desvanecían. Era como si esa persona nunca hubiera existido." 
                              data-img="https://i.imgur.com/nQFxbuc.png" 
                              onclick="openHotspot(this)">
                         </div>
@@ -566,9 +581,9 @@
                     <div class="page-back"></div>
                 </div>
                 
-                <!-- PAGINA 4 (DETONA REDIRECCIÓN AL SEGUNDO CÓMIC) -->
+                <!-- PAGINA 4 (CONEXIÓN INTERPERSONAL CON REDIRECCIÓN) -->
                 <div class="page">
-                    <div class="page-front" style="background-image: url('https://i.imgur.com/rRvi801.jpeg');">
+                    <div class="page-front" style="background-image: url('https://i.imgur.com/hc9Hjdi.jpeg');">
                         <div id="hotspot-p4" class="interactive-hotspot" 
                              data-action="bridge-sub-comic"
                              onclick="openHotspot(this)">
@@ -577,9 +592,9 @@
                     <div class="page-back"></div>
                 </div>
 
-                <!-- PAGINA 5 (CENA INTERGADA DEL DRAGÓN) -->
+                <!-- PAGINA 5 -->
                 <div class="page">
-                    <div class="page-front" style="background-image: url('https://i.imgur.com/Oxid7wB.jpeg');">
+                    <div class="page-front" style="background-image: url('https://i.imgur.com/CqyF1zU.jpeg');">
                         <div id="hotspot-p5" class="interactive-hotspot" 
                              data-text="El dragón rojo fue un regalo que Alice y Otávio le dieron a Alex cuando era pequeño. Para él, el dragón era su refugio: lo abrazaba cada noche cuando tenía miedo. Tras la intervención de MEMUN, Alex desapareció de todos los registros y recuerdos del mundo. El dragón fue lo único que quedó atrás, oculto bajo el suelo de la casa. Años después, al encontrarlo, Alice comenzó a recuperar fragmentos de su memoria y entendió la dolorosa verdad." 
                              data-img="https://i.imgur.com/sxA9iMJ.png"
@@ -590,24 +605,15 @@
                     <div class="page-back"></div>
                 </div>
 
-                <!-- PAGINA 6 (CÉLULA DE CIERRE AUTOMÁTICO) -->
+                <!-- PAGINA 6 (CIERRE AUTOMÁTICO) -->
                 <div class="page">
-                    <div class="page-front" style="background-image: url();">
-                    </div>
+                    <div class="page-front" style="background-image: url();"></div>
                     <div class="page-back"></div>
                 </div>
             </div>
 
-            <!-- ==========================================
-                 CLUSTER CÓMIC 2: SUB-HISTORIA
-                 ========================================== -->
+            <!-- CLUSTER CÓMIC 2: CONEXIÓN DE NOVELA GRÁFICA (LUZ) -->
             <div id="sub-comic-cluster" class="comic-cluster">
-                <!-- Sub-encabezado limpio de terminal secundaria -->
-                <div class="sub-comic-interface">
-                    <div class="sub-label-header">MEMUN // MEMORIA DESBLOQUEADA - LUZ</div>
-                    <button class="return-system-btn" onclick="restoreMainComic()">◄ VOLVER</button>
-                </div>
-
                 <!-- SUB-PAGINA 1 -->
                 <div class="sub-page page">
                     <div class="page-front" style="background-image: url('https://i.imgur.com/9juddwU.png');">
@@ -640,28 +646,27 @@
         <p>PULSA EN LOS LATERALES IZQUIERDA/DERECHA PARA VOLVER O AVANZAR</p>
     </footer>
 
-    <!-- INTERFAZ DE EFECTO UNLOCK MATRIX/GLITCH -->
-    <div id="unlock-matrix-effect">DESBLOQUEANDO ACCESO SECUNDARIO...</div>
+    <!-- INTERFAZ DE EFECTO UNLOCK GLITCH -->
+    <div id="unlock-matrix-effect">SINCRONIZANDO CONEXIÓN ENTRE PERSONAJES...</div>
 
-    <!-- EXPERIENCIA FINAL DRAMÁTICA -->
+    <!-- EXPERIENCIA FINAL -->
     <div id="final-screen">
-        <div class="memun-logo">MEMUN</div>
+        <img class="final-screen-logo" src="https://i.imgur.com/AJqadud.png" alt="MEMUN">
         <p class="final-quote">
-            "Las memórias puedem ser editadas.<br>
+            "Las memorias pueden ser editadas.<br>
             Las marcas que dejan, no."
         </p>
         <div class="final-title">Fin</div>
         <button class="restart-btn" onclick="restartInvestigation()">Reiniciar investigación</button>
     </div>
 
-    <!-- MODAL "SACAR CARTA" -->
+    <!-- MODAL CORREGIDO -->
     <div id="infoModal" class="modal" onclick="closeModal()">
         <div class="modal-envelope" onclick="event.stopPropagation()">
             <span class="close-btn" onclick="closeModal()">&times;</span>
             <div class="modal-content">
                 <img id="modalImg" class="modal-img" src="" alt="Elemento Ampliado">
                 <p id="modalText" class="modal-text"></p>
-                <!-- Botón dinámico de expansión de Wiki/Lore -->
                 <a id="modalWikiBtn" class="modal-readmore-btn" target="_blank">Leer más</a>
             </div>
         </div>
@@ -671,11 +676,66 @@
         let currentCluster = "main";
         let mainPageIndex = 0;
         let subPageIndex = 0;
+        let isLuzUnlocked = false;
         
         let mainPages = Array.from(document.querySelectorAll('#main-comic-cluster .page'));
         let subPages = Array.from(document.querySelectorAll('#sub-comic-cluster .sub-page'));
         
         let inactivityTimer;
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playPageFlipSound() {
+            initAudio();
+            if (!audioCtx) return;
+            let now = audioCtx.currentTime;
+            
+            let oscLow = audioCtx.createOscillator();
+            let gainLow = audioCtx.createGain();
+            oscLow.type = 'triangle';
+            oscLow.frequency.setValueAtTime(90, now);
+            oscLow.frequency.exponentialRampToValueAtTime(30, now + 0.35);
+            gainLow.gain.setValueAtTime(0.2, now);
+            gainLow.gain.linearRampToValueAtTime(0, now + 0.35);
+            oscLow.connect(gainLow);
+            gainLow.connect(audioCtx.destination);
+            
+            let oscHigh = audioCtx.createOscillator();
+            let gainHigh = audioCtx.createGain();
+            oscHigh.type = 'sine';
+            oscHigh.frequency.setValueAtTime(320, now);
+            oscHigh.frequency.linearRampToValueAtTime(150, now + 0.2);
+            gainHigh.gain.setValueAtTime(0.04, now);
+            gainHigh.gain.linearRampToValueAtTime(0, now + 0.2);
+            oscHigh.connect(gainHigh);
+            gainHigh.connect(audioCtx.destination);
+            
+            oscLow.start(now); oscLow.stop(now + 0.35);
+            oscHigh.start(now); oscHigh.stop(now + 0.2);
+        }
+
+        function playClickSound() {
+            initAudio();
+            if (!audioCtx) return;
+            let now = audioCtx.currentTime;
+            let osc = audioCtx.createOscillator();
+            let gain = audioCtx.createGain();
+            
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(650, now);
+            osc.frequency.exponentialRampToValueAtTime(120, now + 0.08);
+            gain.gain.setValueAtTime(0.18, now);
+            gain.gain.linearRampToValueAtTime(0, now + 0.08);
+            
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(now); osc.stop(now + 0.08);
+        }
 
         window.addEventListener('load', () => {
             updatePageLayers();
@@ -705,6 +765,7 @@
         }
 
         function unlockSystem() {
+            initAudio();
             const cover = document.getElementById('cover-screen');
             cover.style.opacity = '0';
             setTimeout(() => {
@@ -718,6 +779,7 @@
 
             if (currentCluster === "main") {
                 if (direction === 1 && mainPageIndex < mainPages.length - 1) {
+                    playPageFlipSound();
                     mainPages[mainPageIndex].classList.add('flipped');
                     mainPageIndex++;
                     if (mainPageIndex === mainPages.length - 1) {
@@ -726,14 +788,17 @@
                         }, 800);
                     }
                 } else if (direction === -1 && mainPageIndex > 0) {
+                    playPageFlipSound();
                     mainPageIndex--;
                     mainPages[mainPageIndex].classList.remove('flipped');
                 }
             } else {
                 if (direction === 1 && subPageIndex < subPages.length - 1) {
+                    playPageFlipSound();
                     subPages[subPageIndex].classList.add('flipped');
                     subPageIndex++;
                 } else if (direction === -1 && subPageIndex > 0) {
+                    playPageFlipSound();
                     subPageIndex--;
                     subPages[subPageIndex].classList.remove('flipped');
                 }
@@ -765,7 +830,28 @@
             });
         }
 
+        function switchCluster(target) {
+            if (target === "sub" && !isLuzUnlocked) return; 
+            
+            playClickSound();
+            currentCluster = target;
+            
+            document.querySelectorAll('.identity-tab').forEach(btn => btn.classList.remove('active'));
+            if (target === "main") {
+                document.getElementById('btn-tab-alice').classList.add('active');
+                document.getElementById('sub-comic-cluster').classList.remove('active');
+                document.getElementById('main-comic-cluster').classList.add('active');
+            } else {
+                document.getElementById('btn-tab-luz').classList.add('active');
+                document.getElementById('main-comic-cluster').classList.remove('active');
+                document.getElementById('sub-comic-cluster').classList.add('active');
+            }
+            updatePageLayers();
+            resetInactivityTimer();
+        }
+
         function openHotspot(element) {
+            playClickSound();
             if (element.hasAttribute('data-link')) {
                 window.open(element.getAttribute('data-link'), '_blank');
                 return;
@@ -776,15 +862,14 @@
                 matrix.classList.add('run-animation');
                 
                 setTimeout(() => {
-                    document.getElementById('main-comic-cluster').classList.remove('active');
-                    const subCluster = document.getElementById('sub-comic-cluster');
-                    subCluster.classList.add('active');
-                    currentCluster = "sub";
-                    subPageIndex = 0;
+                    isLuzUnlocked = true;
+                    const luzTab = document.getElementById('btn-tab-luz');
+                    luzTab.classList.add('unlocked');
                     
+                    subPageIndex = 0;
                     subPages.forEach(p => p.classList.remove('flipped'));
                     
-                    updatePageLayers();
+                    switchCluster('sub');
                     matrix.classList.remove('run-animation');
                 }, 600);
                 return;
@@ -814,22 +899,17 @@
         }
 
         function closeModal() {
+            playClickSound();
             document.getElementById('infoModal').classList.remove('active');
         }
 
-        function restoreMainComic() {
-            document.getElementById('sub-comic-cluster').classList.remove('active');
-            document.getElementById('main-comic-cluster').classList.add('active');
-            currentCluster = "main";
-            updatePageLayers();
-            resetInactivityTimer();
-        }
-
         function restartInvestigation() {
+            playClickSound();
             document.getElementById('final-screen').classList.remove('active');
-            currentCluster = "main";
-            document.getElementById('sub-comic-cluster').classList.remove('active');
-            document.getElementById('main-comic-cluster').classList.add('active');
+            
+            isLuzUnlocked = false;
+            const luzTab = document.getElementById('btn-tab-luz');
+            luzTab.classList.remove('unlocked');
             
             mainPageIndex = 0;
             subPageIndex = 0;
@@ -837,8 +917,7 @@
             mainPages.forEach(p => p.classList.remove('flipped'));
             subPages.forEach(p => p.classList.remove('flipped'));
             
-            setTimeout(updatePageLayers, 50);
-            resetInactivityTimer();
+            switchCluster('main');
         }
     </script>
 </body>
